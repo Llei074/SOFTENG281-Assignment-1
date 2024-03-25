@@ -10,13 +10,21 @@ public class VenueHireSystem {
   public VenueHireSystem() {
     
   }
+  private ArrayList<venueDetails> venues = new ArrayList<venueDetails>();
 
   public void printVenues() {
-    // TODO implement this method
-    System.out.println("There are no venues in the system. Please create a venue first.");
-  }
+    if (venues.isEmpty() == true) {
+      System.out.println("There are no venues in the system. Please create a venue first.");
+      
+    } if(venues.size() == 1) {
+      MessageCli.NUMBER_VENUES.printMessage("is","one","",":");
 
-  private ArrayList<venueDetails> venues = new ArrayList<venueDetails>();
+      for (venueDetails venue : venues) {
+        MessageCli.VENUE_ENTRY.printMessage(venue.getName(),venue.getCode(),venue.getCapacity(),venue.gethirefee(),"%s");
+      }
+
+    }
+  }
 
   public void createVenue(
       String venueName, String venueCode, String capacityInput, String hireFeeInput) {
@@ -28,6 +36,15 @@ public class VenueHireSystem {
       }
 
       //Rejecting Duplicate Venue Codes
+      if (venues.isEmpty() != true) {
+        for (venueDetails venue : venues) {
+          if (venue.getCode().equals(venueCode)) {
+            MessageCli.VENUE_NOT_CREATED_CODE_EXISTS.printMessage(venueCode, venue.getName());
+            return;
+          }
+        }
+      }
+
 
       //Invalid Capacity Input or Invalid Hire Fee Input
       
