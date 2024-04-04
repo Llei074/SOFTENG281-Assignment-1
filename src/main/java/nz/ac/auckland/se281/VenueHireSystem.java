@@ -12,7 +12,7 @@ public class VenueHireSystem {
   private String[] IntToWord = {
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
   };
-  private String SystemDate;
+  private String SystemDate = "not set";
 
   public void printVenues() {
     if (venues.isEmpty() == true) { // Checks if the venue array list is empty
@@ -81,7 +81,11 @@ public class VenueHireSystem {
   }
 
   public void printSystemDate() {
-    // TODO implement this method
+    if (SystemDate == "not set") {
+      MessageCli.CURRENT_DATE.printMessage(SystemDate);
+    } else {
+      MessageCli.CURRENT_DATE.printMessage(SystemDate);
+    }
   }
 
   public void makeBooking(String[] options) {
