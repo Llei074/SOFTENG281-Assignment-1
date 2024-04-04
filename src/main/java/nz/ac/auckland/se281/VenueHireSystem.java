@@ -89,7 +89,26 @@ public class VenueHireSystem {
   }
 
   public void makeBooking(String[] options) {
-    // TODO implement this method
+    // Scenarios where a booking should not be made
+
+    if (SystemDate == "not set") {
+      MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage(); // Date not set
+      return;
+    } else if (venues.isEmpty() == true) {
+      MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage(); // No venues in the system
+      return;
+    } else { 
+      
+      //Uncompleted Code
+
+      for (venueDetails venue : venues) {
+        if (venue.getCode() == options[0]) {
+          MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(options[0]);
+          return;
+        }
+      }
+    }
+    
   }
 
   public void printBookings(String venueCode) {
@@ -110,5 +129,10 @@ public class VenueHireSystem {
 
   public void viewInvoice(String bookingReference) {
     // TODO implement this method
+  }
+
+  public boolean checkDate(String sysDate, String bookingDate) {
+    // TODO implement this method
+    return 0;
   }
 }
