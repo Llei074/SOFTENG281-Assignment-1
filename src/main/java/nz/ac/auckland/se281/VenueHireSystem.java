@@ -13,6 +13,7 @@ public class VenueHireSystem {
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
   };
   private String SystemDate = "not set";
+  private boolean Stop = true;
 
   public void printVenues() {
     if (venues.isEmpty() == true) { // Checks if the venue array list is empty
@@ -97,18 +98,30 @@ public class VenueHireSystem {
     } else if (venues.isEmpty() == true) {
       MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage(); // No venues in the system
       return;
-    } else { 
-      
-      //Uncompleted Code
+    } else {
 
+      // Verifies the client code with codes in the system
+      Stop = true;
       for (venueDetails venue : venues) {
-        if (venue.getCode() == options[0]) {
-          MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(options[0]);
-          return;
+        if (venue.getCode().equals(options[0])) {
+
+          Stop = false;
+
+          break;
         }
       }
+
+      if (Stop == true) {
+
+        Stop = false;
+
+        MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(options[0]);
+        return;
+      }
     }
-    
+
+    // TODO
+
   }
 
   public void printBookings(String venueCode) {
@@ -133,6 +146,6 @@ public class VenueHireSystem {
 
   public boolean checkDate(String sysDate, String bookingDate) {
     // TODO implement this method
-    return 0;
+    return true;
   }
 }
