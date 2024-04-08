@@ -9,6 +9,7 @@ public class VenueHireSystem {
   public VenueHireSystem() {}
 
   private ArrayList<VenueDetails> venues = new ArrayList<VenueDetails>();
+  private ArrayList<BookingDetails> bookings = new ArrayList<BookingDetails>();
   private String[] intToWord = {
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
   };
@@ -93,11 +94,15 @@ public class VenueHireSystem {
     // Scenarios where a booking should not be made
 
     if (systemDate == "not set") {
+
       MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage(); // Date not set
       return;
+
     } else if (venues.isEmpty() == true) {
+
       MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage(); // No venues in the system
       return;
+
     } else if (checkDate(systemDate, options[1])) {
 
       MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], systemDate);
@@ -109,9 +114,7 @@ public class VenueHireSystem {
       stop = true;
       for (VenueDetails venue : venues) {
         if (venue.getCode().equals(options[0])) {
-
           stop = false;
-
           break;
         }
       }
@@ -123,10 +126,14 @@ public class VenueHireSystem {
         MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(options[0]);
         return;
       }
+
     }
 
-    // TODO
-
+    BookingDetails booking = new BookingDetails(options[0], options[1], options[2], options[3]);
+    bookings.add(booking);
+    booking.storeReference(BookingReferenceGenerator.generateBookingReference());
+    MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
+        booking.getReference(), booking.getCode(), booking.getDate(), booking.getAttendees());
   }
 
   public void printBookings(String venueCode) {
@@ -158,12 +165,16 @@ public class VenueHireSystem {
     // Checks year, month, day
     if (Integer.parseInt(bookingDateParts[2]) < Integer.parseInt(sysDateParts[2])) {
       return true;
+
     } else if (Integer.parseInt(bookingDateParts[2]) > Integer.parseInt(sysDateParts[2])) {
       return false;
+
     } else if (Integer.parseInt(bookingDateParts[1]) < Integer.parseInt(sysDateParts[1])) {
       return true;
+
     } else if (Integer.parseInt(bookingDateParts[1]) > Integer.parseInt(sysDateParts[1])) {
       return false;
+      
     } else if (Integer.parseInt(bookingDateParts[0]) < Integer.parseInt(sysDateParts[0])) {
       return true;
     }

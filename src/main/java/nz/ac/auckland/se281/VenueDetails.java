@@ -39,17 +39,18 @@ class VenueDetails extends Venue {
 class BookingDetails extends Venue {
 
   private String date;
-  private String bookingCapacity;
+  private String attendees;
+  private String reference;
 
-  public BookingDetails(String code, String date, String email, String bookingCapacity) {
+  public BookingDetails(String code, String date, String email, String attendees) {
     this.code = code;
     this.date = date;
     this.email = email;
-    this.bookingCapacity = bookingCapacity;
+    this.attendees = attendees;
   }
 
-  public String getBookingCapacity() {
-    return bookingCapacity;
+  public String getAttendees() {
+    return attendees;
   }
 
   public String getEmail() {
@@ -58,5 +59,13 @@ class BookingDetails extends Venue {
 
   public String getDate() {
     return date;
+  }
+
+  public void storeReference(String ref) {
+    this.reference = ref;
+  }
+
+  public String getReference() {
+    return reference;
   }
 }
