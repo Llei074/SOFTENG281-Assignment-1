@@ -155,7 +155,7 @@ public class VenueHireSystem {
     String[] sysDateParts = sysDate.split("/");
     String[] bookingDateParts = bookingDate.split("/");
 
-    //Checks year, month, day
+    // Checks year, month, day
     if (Integer.parseInt(bookingDateParts[2]) < Integer.parseInt(sysDateParts[2])) {
       return true;
     } else if (Integer.parseInt(bookingDateParts[2]) > Integer.parseInt(sysDateParts[2])) {
