@@ -14,7 +14,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
   MainTest.Task1.class,
-  // MainTest.Task2.class,
+  MainTest.Task2.class,
   // MainTest.Task3.class,
   // MainTest.YourTests.class, // Uncomment this line to run your own tests
 })
@@ -713,7 +713,48 @@ public class MainTest {
       runCommands(PRINT_VENUES);
       assertContains("There are no venues in the system. Please create a venue first.");
     }
+
+    @Test
+    public void T4_02_01_invalid_year_booking_date() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2025", //
+              MAKE_BOOKING,
+              options("GGG", "25/02/2024", "client001@email.com", "230")));
+
+      assertContains("Booking not made: '25/02/2024' is in the past (system date is 26/02/2025).");
+    }
+
+    @Test
+    public void T4_02_02_invalid_month_booking_date() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "26/01/2024", "client001@email.com", "230")));
+
+      assertContains("Booking not made: '26/01/2024' is in the past (system date is 26/02/2024).");
+    }
+
+    @Test
+    public void T4_02_03_invalid_day_booking_date() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2025", //
+              MAKE_BOOKING,
+              options("GGG", "25/02/2025", "client001@email.com", "230")));
+
+      assertContains("Booking not made: '25/02/2025' is in the past (system date is 26/02/2025).");
+    }
   }
+
+  
 
   private static final Object[] CREATE_NINE_VENUES =
       new Object[] {

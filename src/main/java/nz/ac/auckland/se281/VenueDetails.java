@@ -5,13 +5,13 @@ public class VenueDetails {
   private String name;
   private String code;
   private String capacity;
-  private String hirefee;
+  private String hireFee;
 
   public VenueDetails(String name, String code, String capacityInput, String hireFeeInput) {
     this.name = name;
     this.code = code;
     this.capacity = capacityInput;
-    this.hirefee = hireFeeInput;
+    this.hireFee = hireFeeInput;
   }
 
   public String getName() {
@@ -27,6 +27,6 @@ public class VenueDetails {
   }
 
   public String gethirefee() {
-    return hirefee;
+    return hireFee;
   }
 }

@@ -13,7 +13,7 @@ public class VenueHireSystem {
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
   };
   private String systemDate = "not set";
-  private boolean stop = true;
+  private boolean stop;
 
   public void printVenues() {
     if (venues.isEmpty() == true) { // Checks if the venue array list is empty
@@ -98,9 +98,14 @@ public class VenueHireSystem {
     } else if (venues.isEmpty() == true) {
       MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage(); // No venues in the system
       return;
+    } else if (checkDate(systemDate, options[1])) {
+
+      MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], systemDate);
+      return;
+
     } else {
 
-      // Verifies the client code with codes in the system
+      // Verifies the input code with codes in the system
       stop = true;
       for (VenueDetails venue : venues) {
         if (venue.getCode().equals(options[0])) {
@@ -145,7 +150,24 @@ public class VenueHireSystem {
   }
 
   public boolean checkDate(String sysDate, String bookingDate) {
-    // TODO implement this method
-    return true;
+    // Returns true if the date IS NOT the same
+
+    String[] sysDateParts = sysDate.split("/");
+    String[] bookingDateParts = bookingDate.split("/");
+
+    //Checks year, month, day
+    if (Integer.parseInt(bookingDateParts[2]) < Integer.parseInt(sysDateParts[2])) {
+      return true;
+    } else if (Integer.parseInt(bookingDateParts[2]) > Integer.parseInt(sysDateParts[2])) {
+      return false;
+    } else if (Integer.parseInt(bookingDateParts[1]) < Integer.parseInt(sysDateParts[1])) {
+      return true;
+    } else if (Integer.parseInt(bookingDateParts[1]) > Integer.parseInt(sysDateParts[1])) {
+      return false;
+    } else if (Integer.parseInt(bookingDateParts[0]) < Integer.parseInt(sysDateParts[0])) {
+      return true;
+    }
+
+    return false;
   }
 }
