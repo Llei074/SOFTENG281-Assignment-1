@@ -114,8 +114,7 @@ public class VenueHireSystem {
         }
 
         BookingDetails booking =
-            new BookingDetails(
-                options, venue.getName(), BookingReferenceGenerator.generateBookingReference());
+            new BookingDetails(options, BookingReferenceGenerator.generateBookingReference());
         venue.addBooking(booking);
         booking.checkCapacity(venue.getCapacity());
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
@@ -130,7 +129,14 @@ public class VenueHireSystem {
   }
 
   public void printBookings(String venueCode) {
-    // TODO implement this method
+    for (VenueDetails venue : venues) {
+      if (venueCode.equals(venue.getCode())) {
+        MessageCli.PRINT_BOOKINGS_HEADER.printMessage(venue.getName());
+        // venue.printVenueBookings();
+        return;
+      }
+    }
+    MessageCli.PRINT_BOOKINGS_VENUE_NOT_FOUND.printMessage(venueCode);
   }
 
   public void addCateringService(String bookingReference, CateringType cateringType) {
@@ -174,6 +180,4 @@ public class VenueHireSystem {
 
     return false;
   }
-
-  
 }

@@ -709,6 +709,21 @@ public class MainTest {
     }
 
     @Test
+    public void T4_test_run() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "27/05/2024", //
+              MAKE_BOOKING,
+              options("GGG", "28/05/2024", "client999@email.com", "280"), //
+              MAKE_BOOKING,
+              options("MMM", "28/05/2024", "client999@email.com", "1000"),//
+              MAKE_BOOKING,
+              options("MMM", "26/05/2024", "client999@email.com", "1000")));
+    }
+
+    @Test
     public void T4_01_add_your_own_tests_as_needed() throws Exception {
       runCommands(PRINT_VENUES);
       assertContains("There are no venues in the system. Please create a venue first.");
@@ -768,20 +783,6 @@ public class MainTest {
       assertDoesNotContain("Booking not made", true);
     }
 
-    @Test
-    public void T4_04_test() throws Exception {
-      runCommands(
-          unpack(
-              CREATE_TEN_VENUES,
-              SET_DATE,
-              "26/05/2024", //
-              MAKE_BOOKING,
-              options("GGG", "28/05/2024", "client999@email.com", "280"), //
-              MAKE_BOOKING,
-              options("MMM", "28/05/2024", "client999@email.com", "3000"),//
-              MAKE_BOOKING,
-              options("MMM", "01/05/2024", "client999@email.com", "3000")));
-    }
   }
 
   
