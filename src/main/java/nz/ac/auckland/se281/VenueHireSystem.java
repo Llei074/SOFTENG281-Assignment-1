@@ -118,7 +118,7 @@ public class VenueHireSystem {
             new BookingDetails(
                 options, venue.getName(), BookingReferenceGenerator.generateBookingReference());
         bookings.add(booking);
-        // booking.checkCapacity(venue.getCapacity());
+        booking.checkCapacity(venue.getCapacity());
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
             booking.getReference(), booking.getName(), booking.getDate(), booking.getAttendees());
         return;
@@ -176,12 +176,12 @@ public class VenueHireSystem {
     return false;
   }
 
-  public boolean checkBookingDate(String codeVenue, String bookingDate) {
+  public boolean checkBookingDate(String venueCode, String bookingDate) {
     // Returns true if the user is booking an already booked venue date
     // Checks if there has been bookings made
     if (!bookings.isEmpty()) {
       for (BookingDetails booking : bookings) {
-        if (codeVenue.equals(booking.getCode()) && booking.getDate().equals(bookingDate)) {
+        if (venueCode.equals(booking.getCode()) && booking.getDate().equals(bookingDate)) {
           return true;
         }
       }

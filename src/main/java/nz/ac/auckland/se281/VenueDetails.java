@@ -4,6 +4,7 @@ abstract class Venue {
 
   protected String name;
   protected String code;
+  protected int tempAnswer;
 
   public void setName(String name) {
     this.name = name;
@@ -53,6 +54,18 @@ class BookingDetails extends Venue {
     this.attendees = options[3];
     this.name = name;
     this.reference = ref;
+  }
+
+  public void checkCapacity(String capcacity) {
+    tempAnswer = Integer.parseInt(capcacity) / 4;
+    if (tempAnswer > Integer.parseInt(this.attendees)) {
+      MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
+          attendees, Integer.toString(tempAnswer), capcacity);
+      this.attendees = Integer.toString(tempAnswer);
+    } else if (Integer.parseInt(this.attendees) > Integer.parseInt(capcacity)) {
+      MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(attendees, capcacity, capcacity);
+      this.attendees = capcacity;
+    }
   }
 
   public String getAttendees() {
