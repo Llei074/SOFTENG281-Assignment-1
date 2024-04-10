@@ -9,7 +9,6 @@ public class VenueHireSystem {
   public VenueHireSystem() {}
 
   private ArrayList<VenueDetails> venues = new ArrayList<VenueDetails>();
-  private ArrayList<BookingDetails> bookings = new ArrayList<BookingDetails>();
   private String[] intToWord = {
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
   };
@@ -98,7 +97,7 @@ public class VenueHireSystem {
       MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage(); // No venues in the system
       return;
 
-    } else if (checkDate(systemDate, options[1])) {
+    } else if (checkDate(options[1])) {
 
       MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], systemDate);
       return;
@@ -108,7 +107,7 @@ public class VenueHireSystem {
       if (venue.getCode().equals(options[0])) {
         // With the confirmed venue code we can check through the booked dates and check if the
         // venue is already booked
-        if (checkBookingDate(venue.getCode(), options[1])) {
+        if (venue.checkBookingDate(options[1])) {
           MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(
               venue.getName(), options[1]);
           return;
@@ -117,7 +116,7 @@ public class VenueHireSystem {
         BookingDetails booking =
             new BookingDetails(
                 options, venue.getName(), BookingReferenceGenerator.generateBookingReference());
-        bookings.add(booking);
+        venue.addBooking(booking);
         booking.checkCapacity(venue.getCapacity());
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
             booking.getReference(), booking.getName(), booking.getDate(), booking.getAttendees());
@@ -150,10 +149,10 @@ public class VenueHireSystem {
     // TODO implement this method
   }
 
-  public boolean checkDate(String sysDate, String bookingDate) {
+  public boolean checkDate(String bookingDate) {
     // Returns true if the date IS NOT the same
 
-    String[] sysDateParts = sysDate.split("/");
+    String[] sysDateParts = systemDate.split("/");
     String[] bookingDateParts = bookingDate.split("/");
 
     // Checks year, month, day
@@ -176,17 +175,5 @@ public class VenueHireSystem {
     return false;
   }
 
-  public boolean checkBookingDate(String venueCode, String bookingDate) {
-    // Returns true if the user is booking an already booked venue date
-    // Checks if there has been bookings made
-    if (!bookings.isEmpty()) {
-      for (BookingDetails booking : bookings) {
-        if (venueCode.equals(booking.getCode()) && booking.getDate().equals(bookingDate)) {
-          return true;
-        }
-      }
-    }
-    // Loop through bookings and check if the user input date (options[2]) is equal/already booked
-    return false;
-  }
+  
 }

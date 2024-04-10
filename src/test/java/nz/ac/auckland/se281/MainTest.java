@@ -767,6 +767,21 @@ public class MainTest {
       assertContains("Successfully created booking 'HUD14D8O'");
       assertDoesNotContain("Booking not made", true);
     }
+
+    @Test
+    public void T4_04_test() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/05/2024", //
+              MAKE_BOOKING,
+              options("GGG", "28/05/2024", "client999@email.com", "280"), //
+              MAKE_BOOKING,
+              options("MMM", "28/05/2024", "client999@email.com", "3000"),//
+              MAKE_BOOKING,
+              options("MMM", "01/05/2024", "client999@email.com", "3000")));
+    }
   }
 
   
