@@ -14,7 +14,6 @@ public class VenueHireSystem {
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
   };
   private String systemDate = "not set";
-  private boolean stop;
 
   public void printVenues() {
     if (venues.isEmpty() == true) { // Checks if the venue array list is empty
@@ -83,17 +82,13 @@ public class VenueHireSystem {
   }
 
   public void printSystemDate() {
-    if (systemDate == "not set") {
-      MessageCli.CURRENT_DATE.printMessage(systemDate);
-    } else {
-      MessageCli.CURRENT_DATE.printMessage(systemDate);
-    }
+    MessageCli.CURRENT_DATE.printMessage(systemDate);
   }
 
   public void makeBooking(String[] options) {
     // Scenarios where a booking should not be made
 
-    if (systemDate == "not set") {
+    if (systemDate.equals("not set")) {
 
       MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage(); // Date not set
       return;
@@ -107,41 +102,32 @@ public class VenueHireSystem {
 
       MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], systemDate);
       return;
-
-    } else {
-
-      // Verifies the input code with codes in the system
-      stop = true;
-      for (VenueDetails venue : venues) {
-        if (venue.getCode().equals(options[0])) {
-          // With the confirmed venue code we can check through the booked dates and check if the
-          // venue is already booked
-          if (checkBookingDate(venue.getCode(), options[1])) {
-            MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(
-                venue.getName(), options[1]);
-            return;
-          }
-
-          BookingDetails booking =
-              new BookingDetails(options[0], options[1], options[2], options[3]);
-          bookings.add(booking);
-          booking.setName(venue.getName());
-          booking.setReference(BookingReferenceGenerator.generateBookingReference());
-          MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
-              booking.getReference(), booking.getName(), booking.getDate(), booking.getAttendees());
-
+    }
+    // Verifies the input code with codes in the system
+    for (VenueDetails venue : venues) {
+      if (venue.getCode().equals(options[0])) {
+        // With the confirmed venue code we can check through the booked dates and check if the
+        // venue is already booked
+        if (checkBookingDate(venue.getCode(), options[1])) {
+          MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(
+              venue.getName(), options[1]);
           return;
         }
-      }
 
-      if (stop == true) {
-
-        stop = false;
-
-        MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(options[0]);
+        BookingDetails booking =
+            new BookingDetails(
+                options, venue.getName(), BookingReferenceGenerator.generateBookingReference());
+        bookings.add(booking);
+        // booking.checkCapacity(venue.getCapacity());
+        MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
+            booking.getReference(), booking.getName(), booking.getDate(), booking.getAttendees());
         return;
       }
     }
+
+    // Could not match venue code with the venue list
+    MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(options[0]);
+    return;
   }
 
   public void printBookings(String venueCode) {
@@ -192,18 +178,15 @@ public class VenueHireSystem {
 
   public boolean checkBookingDate(String codeVenue, String bookingDate) {
     // Returns true if the user is booking an already booked venue date
-
-    // Check if there has been bookings made
-    if (bookings.isEmpty()) {
-      return false;
-    } else {
+    // Checks if there has been bookings made
+    if (!bookings.isEmpty()) {
       for (BookingDetails booking : bookings) {
         if (codeVenue.equals(booking.getCode()) && booking.getDate().equals(bookingDate)) {
           return true;
         }
       }
     }
-    // Loop through bookings and check if the user input date (options[2]) is equal/aready booked
+    // Loop through bookings and check if the user input date (options[2]) is equal/already booked
     return false;
   }
 }
