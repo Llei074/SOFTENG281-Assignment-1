@@ -4,7 +4,10 @@ abstract class Venue {
 
   protected String name;
   protected String code;
-  protected String email;
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   public String getName() {
     return name;
@@ -39,6 +42,7 @@ class VenueDetails extends Venue {
 class BookingDetails extends Venue {
 
   private String date;
+  private String email;
   private String attendees;
   private String reference;
 
@@ -61,7 +65,7 @@ class BookingDetails extends Venue {
     return date;
   }
 
-  public void storeReference(String ref) {
+  public void setReference(String ref) {
     this.reference = ref;
   }
 
