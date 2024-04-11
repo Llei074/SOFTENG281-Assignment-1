@@ -16,7 +16,10 @@ public class BookingDetails extends Venue {
   }
 
   public void checkCapacity(String capcacity) {
+    
+    // Reduce repeated calculations by storing it in tempAnswer
     tempAnswer = Integer.parseInt(capcacity) / 4;
+
     if (tempAnswer > Integer.parseInt(this.attendees)) {
       MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
           attendees, Integer.toString(tempAnswer), capcacity);
