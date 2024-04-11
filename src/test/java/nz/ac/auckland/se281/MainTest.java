@@ -718,9 +718,12 @@ public class MainTest {
               MAKE_BOOKING,
               options("GGG", "28/05/2024", "client999@email.com", "280"), //
               MAKE_BOOKING,
-              options("MMM", "28/05/2024", "client999@email.com", "1000"),//
+              options("MMM", "28/05/2024", "client999@email.com", "1000"), //
               MAKE_BOOKING,
-              options("MMM", "26/05/2024", "client999@email.com", "1000")));
+              options("MMM", "27/05/2024", "client999@email.com", "1000"), //
+              PRINT_BOOKINGS,
+              "MMM", //
+              PRINT_VENUES));
     }
 
     @Test
@@ -782,10 +785,7 @@ public class MainTest {
       assertContains("Successfully created booking 'HUD14D8O'");
       assertDoesNotContain("Booking not made", true);
     }
-
   }
-
-  
 
   private static final Object[] CREATE_NINE_VENUES =
       new Object[] {

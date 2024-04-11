@@ -12,7 +12,7 @@ public class VenueHireSystem {
   private String[] intToWord = {
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
   };
-  private String systemDate = "not set";
+  SystemDate sysDate = new SystemDate("not set");
 
   public void printVenues() {
     if (venues.isEmpty() == true) { // Checks if the venue array list is empty
@@ -27,7 +27,7 @@ public class VenueHireSystem {
     }
     for (VenueDetails venue : venues) {
       MessageCli.VENUE_ENTRY.printMessage(
-          venue.getName(), venue.getCode(), venue.getCapacity(), venue.gethirefee(), "%s");
+          venue.getName(), venue.getCode(), venue.getCapacity(), venue.gethirefee(), venue.nextAvalibleDate(sysDate));
     }
   }
 
@@ -76,18 +76,18 @@ public class VenueHireSystem {
   }
 
   public void setSystemDate(String dateInput) {
-    systemDate = dateInput;
-    MessageCli.DATE_SET.printMessage(systemDate);
+    sysDate.setDate(dateInput);
+    MessageCli.DATE_SET.printMessage(sysDate.getDate());
   }
 
   public void printSystemDate() {
-    MessageCli.CURRENT_DATE.printMessage(systemDate);
+    MessageCli.CURRENT_DATE.printMessage(sysDate.getDate());
   }
 
   public void makeBooking(String[] options) {
     // Scenarios where a booking should not be made
 
-    if (systemDate.equals("not set")) {
+    if (sysDate.getDate().equals("not set")) {
 
       MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage(); // Date not set
       return;
@@ -97,9 +97,9 @@ public class VenueHireSystem {
       MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage(); // No venues in the system
       return;
 
-    } else if (checkDate(options[1])) {
+    } else if (sysDate.checkDate(options[1])) {
 
-      MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], systemDate);
+      MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], sysDate.getDate());
       return;
     }
     // Verifies the input code with codes in the system
@@ -132,7 +132,7 @@ public class VenueHireSystem {
     for (VenueDetails venue : venues) {
       if (venueCode.equals(venue.getCode())) {
         MessageCli.PRINT_BOOKINGS_HEADER.printMessage(venue.getName());
-        // venue.printVenueBookings();
+        venue.printVenueBookings();
         return;
       }
     }
@@ -155,29 +155,4 @@ public class VenueHireSystem {
     // TODO implement this method
   }
 
-  public boolean checkDate(String bookingDate) {
-    // Returns true if the date IS NOT the same
-
-    String[] sysDateParts = systemDate.split("/");
-    String[] bookingDateParts = bookingDate.split("/");
-
-    // Checks year, month, day
-    if (Integer.parseInt(bookingDateParts[2]) < Integer.parseInt(sysDateParts[2])) {
-      return true;
-
-    } else if (Integer.parseInt(bookingDateParts[2]) > Integer.parseInt(sysDateParts[2])) {
-      return false;
-
-    } else if (Integer.parseInt(bookingDateParts[1]) < Integer.parseInt(sysDateParts[1])) {
-      return true;
-
-    } else if (Integer.parseInt(bookingDateParts[1]) > Integer.parseInt(sysDateParts[1])) {
-      return false;
-
-    } else if (Integer.parseInt(bookingDateParts[0]) < Integer.parseInt(sysDateParts[0])) {
-      return true;
-    }
-
-    return false;
-  }
 }
