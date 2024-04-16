@@ -24,12 +24,6 @@ public class BookingDetails extends Venue {
     this.venue = venue;
   }
 
-  public void setCateringType(CateringType cateringType) {
-    CateringTypes.add(cateringType);
-    MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
-        "Catering (" + cateringType.getName() + ")", this.reference);
-  }
-
   public void checkCapacity(String capcacity) {
 
     // Reduce repeated calculations by storing it in tempAnswer
@@ -43,6 +37,23 @@ public class BookingDetails extends Venue {
       MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(attendees, capcacity, capcacity);
       this.attendees = capcacity;
     }
+  }
+
+  public void setCateringType(CateringType cateringType) {
+    CateringTypes.add(cateringType);
+    MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+        "Catering (" + cateringType.getName() + ")", this.reference);
+  }
+
+  public String getTotalAmount() {
+
+    tempAnswer = Integer.parseInt(getHireFee());
+
+    for (CateringType CateringType : CateringTypes) {
+      tempAnswer += CateringType.getCostPerPerson() * Integer.parseInt(attendees);
+    }
+
+    return Integer.toString(tempAnswer);
   }
 
   @Override

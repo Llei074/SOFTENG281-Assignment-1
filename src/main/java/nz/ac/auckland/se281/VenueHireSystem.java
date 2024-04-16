@@ -189,7 +189,7 @@ public class VenueHireSystem {
         // MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage();
         // MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage();
 
-        MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage("%s");
+        MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(booking.getTotalAmount());
 
         return;
       }
