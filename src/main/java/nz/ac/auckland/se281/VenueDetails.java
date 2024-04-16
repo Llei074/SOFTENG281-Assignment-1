@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 public class VenueDetails extends Venue {
 
-  private String venueCapacity;
-  private String hireFee;
+
   private ArrayList<BookingDetails> bookings = new ArrayList<BookingDetails>();
 
   public VenueDetails(String name, String code, String capacityInput, String hireFeeInput) {
@@ -15,8 +14,19 @@ public class VenueDetails extends Venue {
     this.hireFee = hireFeeInput;
   }
 
+  @Override 
+  public String getName() {
+    return this.name;
+  }
+
+  @Override
+  public String getHireFee() {
+    return this.hireFee;
+  }
+
+  @Override
   public String getCapacity() {
-    return venueCapacity;
+    return this.venueCapacity;
   }
 
   public void addBooking(BookingDetails booking) {
@@ -24,16 +34,12 @@ public class VenueDetails extends Venue {
     booking.setName(this.name);
   }
 
-  public String gethirefee() {
-    return hireFee;
-  }
-
   public boolean checkBookingDate(String bookingDate) {
     // Returns true if the user is booking an already booked venue date
     // Checks if there has been bookings made
     if (!bookings.isEmpty()) {
       for (BookingDetails booking : bookings) {
-        if (booking.getDate().equals(bookingDate)) {
+        if (booking.getPartyDate().equals(bookingDate)) {
           return true;
         }
       }
@@ -47,7 +53,8 @@ public class VenueDetails extends Venue {
     // Skips the loop if no bookings have been made
     if (!bookings.isEmpty()) {
       for (BookingDetails booking : bookings) {
-        MessageCli.PRINT_BOOKINGS_ENTRY.printMessage(booking.getReference(), booking.getDate());
+        MessageCli.PRINT_BOOKINGS_ENTRY.printMessage(
+            booking.getReference(), booking.getPartyDate());
       }
       return;
     }
@@ -64,20 +71,22 @@ public class VenueDetails extends Venue {
       return "%s";
     }
 
-    // Stores the system day at the begining to get the latest day 
+    // Stores the system day at the begining to get the latest day
     int dayValue = Integer.parseInt(sysDate.getSysDay());
 
     // Prevents code from running if there is no bookings made
     if (!bookings.isEmpty()) {
 
-      // This code forces the array to continously repeat itself until it has reached the end of the arraylist
-      // By breaking out of the for loop when a day has already been booked prevents the checker from skipping a booking
+      // This code forces the array to continously repeat itself until it has reached the end of the
+      // arraylist
+      // By breaking out of the for loop when a day has already been booked prevents the checker
+      // from skipping a booking
       // This allows the code to sort descending booking dates
       while (stop == false) {
         counter = 0;
         for (BookingDetails booking : bookings) {
           counter++;
-          String[] bookingDate = booking.getDate().split("/");
+          String[] bookingDate = booking.getPartyDate().split("/");
           if (dayValue == Integer.parseInt(bookingDate[0])) {
             dayValue++;
             break;

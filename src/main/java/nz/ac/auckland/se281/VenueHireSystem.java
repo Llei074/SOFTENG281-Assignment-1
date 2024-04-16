@@ -31,7 +31,7 @@ public class VenueHireSystem {
           venue.getName(),
           venue.getCode(),
           venue.getCapacity(),
-          venue.gethirefee(),
+          venue.getHireFee(),
           venue.nextAvalibleDate(sysDate));
     }
   }
@@ -119,12 +119,19 @@ public class VenueHireSystem {
         }
 
         BookingDetails booking =
-            new BookingDetails(options, BookingReferenceGenerator.generateBookingReference());
+            new BookingDetails(
+                options,
+                BookingReferenceGenerator.generateBookingReference(),
+                sysDate.getDate(),
+                venue);
         venue.addBooking(booking);
         bookings.add(booking);
         booking.checkCapacity(venue.getCapacity());
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
-            booking.getReference(), booking.getName(), booking.getDate(), booking.getAttendees());
+            booking.getReference(),
+            booking.getName(),
+            booking.getPartyDate(),
+            booking.getAttendees());
         return;
       }
     }
@@ -153,7 +160,7 @@ public class VenueHireSystem {
         return;
       }
     }
-    MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering",bookingReference);
+    MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
   }
 
   public void addServiceMusic(String bookingReference) {
@@ -165,7 +172,28 @@ public class VenueHireSystem {
   }
 
   public void viewInvoice(String bookingReference) {
-    // TODO implement this method
-  }
+    for (BookingDetails booking : bookings) {
+      if (booking.getReference().equals(bookingReference)) {
 
+        MessageCli.INVOICE_CONTENT_TOP_HALF.printMessage(
+            booking.getReference(),
+            booking.getEmail(),
+            booking.getBookingDate(),
+            booking.getPartyDate(),
+            booking.getAttendees(),
+            booking.getName());
+
+        MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(booking.getHireFee());
+
+        // MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage();
+        // MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage();
+        // MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage();
+
+        MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage("%s");
+
+        return;
+      }
+    }
+    MessageCli.VIEW_INVOICE_BOOKING_NOT_FOUND.printMessage(bookingReference);
+  }
 }

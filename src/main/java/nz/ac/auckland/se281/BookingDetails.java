@@ -5,19 +5,23 @@ import nz.ac.auckland.se281.Types.CateringType;
 
 public class BookingDetails extends Venue {
 
-  private String date;
+  private String bookingDate;
+  private String partyDate;
   private String email;
   private String attendees;
   private String reference;
+  private VenueDetails venue;
 
   ArrayList<CateringType> CateringTypes = new ArrayList<CateringType>();
 
-  public BookingDetails(String[] options, String ref) {
+  public BookingDetails(String[] options, String ref, String bookingDate, VenueDetails venue) {
     this.code = options[0];
-    this.date = options[1];
+    this.partyDate = options[1];
     this.email = options[2];
     this.attendees = options[3];
     this.reference = ref;
+    this.bookingDate = bookingDate;
+    this.venue = venue;
   }
 
   public void setCateringType(CateringType cateringType) {
@@ -41,6 +45,21 @@ public class BookingDetails extends Venue {
     }
   }
 
+  @Override
+  public String getName() {
+    return venue.getName();
+  }
+
+  @Override
+  public String getHireFee() {
+    return venue.getHireFee();
+  }
+
+  @Override
+  public String getCapacity() {
+    return venue.getCapacity();
+  }
+
   public String getAttendees() {
     return attendees;
   }
@@ -49,8 +68,12 @@ public class BookingDetails extends Venue {
     return email;
   }
 
-  public String getDate() {
-    return date;
+  public String getPartyDate() {
+    return partyDate;
+  }
+
+  public String getBookingDate() {
+    return bookingDate;
   }
 
   public String getReference() {
