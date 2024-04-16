@@ -60,7 +60,7 @@ public class VenueDetails extends Venue {
     int counter = 0;
 
     // Allows code to run if the date has not been set by returning "%s"
-    if (sysDate.getDate() == "not set") {
+    if (sysDate.getDate().equals("not set")) {
       return "%s";
     }
 

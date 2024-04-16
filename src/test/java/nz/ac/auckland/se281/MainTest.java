@@ -15,7 +15,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
   MainTest.Task1.class,
   MainTest.Task2.class,
-  // MainTest.Task3.class,
+  MainTest.Task3.class,
   // MainTest.YourTests.class, // Uncomment this line to run your own tests
 })
 public class MainTest {
@@ -721,9 +721,11 @@ public class MainTest {
               options("MMM", "28/05/2024", "client999@email.com", "1000"), //
               MAKE_BOOKING,
               options("MMM", "27/05/2024", "client999@email.com", "1000"), //
+              MAKE_BOOKING,//
+              options("MMM", "35/05/2024", "client999@email.com", "1000"),//
               PRINT_BOOKINGS,
               "MMM", //
-              PRINT_VENUES));
+              PRINT_VENUES));  
     }
 
     @Test

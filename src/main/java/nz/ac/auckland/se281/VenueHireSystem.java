@@ -6,13 +6,14 @@ import nz.ac.auckland.se281.Types.FloralType;
 
 public class VenueHireSystem {
 
-  public VenueHireSystem() {}
-
   private ArrayList<VenueDetails> venues = new ArrayList<VenueDetails>();
+  private ArrayList<BookingDetails> bookings = new ArrayList<BookingDetails>();
+  SystemDate sysDate = new SystemDate("not set");
   private String[] intToWord = {
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
   };
-  SystemDate sysDate = new SystemDate("not set");
+
+  public VenueHireSystem() {}
 
   public void printVenues() {
     if (venues.isEmpty() == true) { // Checks if the venue array list is empty
@@ -27,7 +28,11 @@ public class VenueHireSystem {
     }
     for (VenueDetails venue : venues) {
       MessageCli.VENUE_ENTRY.printMessage(
-          venue.getName(), venue.getCode(), venue.getCapacity(), venue.gethirefee(), venue.nextAvalibleDate(sysDate));
+          venue.getName(),
+          venue.getCode(),
+          venue.getCapacity(),
+          venue.gethirefee(),
+          venue.nextAvalibleDate(sysDate));
     }
   }
 
@@ -116,6 +121,7 @@ public class VenueHireSystem {
         BookingDetails booking =
             new BookingDetails(options, BookingReferenceGenerator.generateBookingReference());
         venue.addBooking(booking);
+        bookings.add(booking);
         booking.checkCapacity(venue.getCapacity());
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
             booking.getReference(), booking.getName(), booking.getDate(), booking.getAttendees());
@@ -129,6 +135,7 @@ public class VenueHireSystem {
   }
 
   public void printBookings(String venueCode) {
+    // Searches through VenueDetails arraylist to access their booking array list
     for (VenueDetails venue : venues) {
       if (venueCode.equals(venue.getCode())) {
         MessageCli.PRINT_BOOKINGS_HEADER.printMessage(venue.getName());
@@ -140,7 +147,13 @@ public class VenueHireSystem {
   }
 
   public void addCateringService(String bookingReference, CateringType cateringType) {
-    // TODO implement this method
+    for (BookingDetails booking : bookings) {
+      if (booking.getReference().equals(bookingReference)) {
+        booking.setCateringType(cateringType);
+        return;
+      }
+    }
+    MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering",bookingReference);
   }
 
   public void addServiceMusic(String bookingReference) {

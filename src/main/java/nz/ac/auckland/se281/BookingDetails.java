@@ -1,5 +1,8 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
+import nz.ac.auckland.se281.Types.CateringType;
+
 public class BookingDetails extends Venue {
 
   private String date;
@@ -7,7 +10,9 @@ public class BookingDetails extends Venue {
   private String attendees;
   private String reference;
 
-  public BookingDetails(String options[], String ref) {
+  ArrayList<CateringType> CateringTypes = new ArrayList<CateringType>();
+
+  public BookingDetails(String[] options, String ref) {
     this.code = options[0];
     this.date = options[1];
     this.email = options[2];
@@ -15,8 +20,14 @@ public class BookingDetails extends Venue {
     this.reference = ref;
   }
 
+  public void setCateringType(CateringType cateringType) {
+    CateringTypes.add(cateringType);
+    MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+        "Catering (" + cateringType.getName() + ")", this.reference);
+  }
+
   public void checkCapacity(String capcacity) {
-    
+
     // Reduce repeated calculations by storing it in tempAnswer
     tempAnswer = Integer.parseInt(capcacity) / 4;
 
