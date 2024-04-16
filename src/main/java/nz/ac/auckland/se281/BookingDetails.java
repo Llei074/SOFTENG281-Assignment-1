@@ -45,14 +45,23 @@ public class BookingDetails extends Venue {
         "Catering (" + cateringType.getName() + ")", this.reference);
   }
 
-  public String getTotalAmount() {
+  public void printInvoiceContent() {
+    // Resetting tempAnswer to prevent unwanted errors
+    tempAnswer = 0;
 
     tempAnswer = Integer.parseInt(getHireFee());
+    MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(getHireFee());
 
-    for (CateringType CateringType : CateringTypes) {
-      tempAnswer += CateringType.getCostPerPerson() * Integer.parseInt(attendees);
+    if (!CateringTypes.isEmpty()) {
+      for (CateringType CateringType : CateringTypes) {
+        int tempAnswer2 = CateringType.getCostPerPerson() * Integer.parseInt(attendees);
+        MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(CateringType.getName(),Integer.toString(tempAnswer2));
+        tempAnswer += tempAnswer2;
+      }
     }
+  }
 
+  public String getTotalAmount() {
     return Integer.toString(tempAnswer);
   }
 

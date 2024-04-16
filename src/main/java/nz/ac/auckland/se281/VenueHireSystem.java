@@ -183,11 +183,7 @@ public class VenueHireSystem {
             booking.getAttendees(),
             booking.getName());
 
-        MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(booking.getHireFee());
-
-        // MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage();
-        // MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage();
-        // MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage();
+        booking.printInvoiceContent();
 
         MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(booking.getTotalAmount());
 
