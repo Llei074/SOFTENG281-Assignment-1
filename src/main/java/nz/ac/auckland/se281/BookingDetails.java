@@ -11,6 +11,7 @@ public class BookingDetails extends Venue {
   private String attendees;
   private String reference;
   private VenueDetails venue;
+  private boolean musicService = false;
 
   ArrayList<CateringType> CateringTypes = new ArrayList<CateringType>();
 
@@ -45,6 +46,11 @@ public class BookingDetails extends Venue {
         "Catering (" + cateringType.getName() + ")", this.reference);
   }
 
+  public void musicServices() {
+    musicService = true;
+    MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Music", this.reference);
+  }
+
   public void printInvoiceContent() {
     // Resetting tempAnswer to prevent unwanted errors
     tempAnswer = 0;
@@ -55,7 +61,8 @@ public class BookingDetails extends Venue {
     if (!CateringTypes.isEmpty()) {
       for (CateringType CateringType : CateringTypes) {
         int tempAnswer2 = CateringType.getCostPerPerson() * Integer.parseInt(attendees);
-        MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(CateringType.getName(),Integer.toString(tempAnswer2));
+        MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
+            CateringType.getName(), Integer.toString(tempAnswer2));
         tempAnswer += tempAnswer2;
       }
     }
