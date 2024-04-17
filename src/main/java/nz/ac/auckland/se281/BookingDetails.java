@@ -14,6 +14,7 @@ public class BookingDetails extends Venue {
   private VenueDetails venue;
   private ArrayList<CateringType> CateringTypes = new ArrayList<CateringType>();
   private boolean musicService = false;
+  private boolean floral = false;
   private FloralType floralType;
 
   public BookingDetails(String[] options, String ref, String bookingDate, VenueDetails venue) {
@@ -54,6 +55,7 @@ public class BookingDetails extends Venue {
 
   public void setFloralType(FloralType floralType) {
     this.floralType = floralType;
+    this.floral = true;
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
         "Floral (" + floralType.getName() + ")", this.reference);
   }
@@ -61,11 +63,13 @@ public class BookingDetails extends Venue {
   public void printInvoiceContent() {
     // Resetting tempAnswer to prevent unwanted errors
     int tempAnswer2;
+    // tempAnswer calculates the cost as it runs printInvoiceContent
     tempAnswer = 0;
 
     tempAnswer = Integer.parseInt(getHireFee());
     MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(getHireFee());
 
+    // ToDo print catering types within the same output line
     if (!CateringTypes.isEmpty()) {
       for (CateringType CateringType : CateringTypes) {
         tempAnswer2 = CateringType.getCostPerPerson() * Integer.parseInt(attendees);
@@ -77,6 +81,10 @@ public class BookingDetails extends Venue {
     } else if (this.musicService == true) {
       tempAnswer += 500;
       MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage("500");
+    } else if (this.floral == true) {
+      tempAnswer += floralType.getCost();
+      MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
+          floralType.getName(), Integer.toString(floralType.getCost()));
     }
   }
 
