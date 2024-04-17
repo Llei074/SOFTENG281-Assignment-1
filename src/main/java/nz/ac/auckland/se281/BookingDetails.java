@@ -2,6 +2,7 @@ package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
 import nz.ac.auckland.se281.Types.CateringType;
+import nz.ac.auckland.se281.Types.FloralType;
 
 public class BookingDetails extends Venue {
 
@@ -11,9 +12,9 @@ public class BookingDetails extends Venue {
   private String attendees;
   private String reference;
   private VenueDetails venue;
+  private ArrayList<CateringType> CateringTypes = new ArrayList<CateringType>();
   private boolean musicService = false;
-
-  ArrayList<CateringType> CateringTypes = new ArrayList<CateringType>();
+  private FloralType floralType;
 
   public BookingDetails(String[] options, String ref, String bookingDate, VenueDetails venue) {
     this.code = options[0];
@@ -51,8 +52,15 @@ public class BookingDetails extends Venue {
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Music", this.reference);
   }
 
+  public void setFloralType(FloralType floralType) {
+    this.floralType = floralType;
+    MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+        "Floral (" + floralType.getName() + ")", this.reference);
+  }
+
   public void printInvoiceContent() {
     // Resetting tempAnswer to prevent unwanted errors
+    int tempAnswer2;
     tempAnswer = 0;
 
     tempAnswer = Integer.parseInt(getHireFee());
@@ -60,11 +68,15 @@ public class BookingDetails extends Venue {
 
     if (!CateringTypes.isEmpty()) {
       for (CateringType CateringType : CateringTypes) {
-        int tempAnswer2 = CateringType.getCostPerPerson() * Integer.parseInt(attendees);
+        tempAnswer2 = CateringType.getCostPerPerson() * Integer.parseInt(attendees);
         MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
             CateringType.getName(), Integer.toString(tempAnswer2));
         tempAnswer += tempAnswer2;
       }
+
+    } else if (this.musicService == true) {
+      tempAnswer += 500;
+      MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage("500");
     }
   }
 
