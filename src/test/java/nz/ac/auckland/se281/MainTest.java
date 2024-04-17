@@ -787,6 +787,48 @@ public class MainTest {
       assertContains("Successfully created booking 'HUD14D8O'");
       assertDoesNotContain("Booking not made", true);
     }
+
+    @Test
+    public void T4_04_add_catering_service_total_printed() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("RRV", "28/07/2024", "client001@email.com", "150"), //
+              ADD_CATERING,
+              "HUD14D8O",
+              options("BL"), //
+              ADD_FLORAL,
+              "HUD14D8O",
+              options("y"), //
+              ADD_MUSIC,
+              "HUD14D8O", //
+              VIEW_INVOICE,
+              "HUD14D8O"));
+    }
+
+    @Test
+    public void T4_05_add_floral_service_total_printed() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "27/03/2024", "client001@email.com", "230"), //
+              ADD_FLORAL,
+              "HUD14D8O",
+              options("y"), //
+              VIEW_INVOICE,
+              "HUD14D8O"));
+
+      assertContains("Successfully added Floral (Deluxe) service to booking 'HUD14D8O'.");
+      assertContains("* Floral (Deluxe) - $1000");
+      assertContains("Total Amount: $2500");
+      assertDoesNotContain("not added", true);
+    }
   }
 
   private static final Object[] CREATE_NINE_VENUES =

@@ -57,34 +57,51 @@ public class BookingDetails extends Venue {
     this.floralType = floralType;
     this.floral = true;
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
-        "Floral (" + floralType.getName() + ")", this.reference);
+      "Floral (" + floralType.getName() + ")", this.reference);
   }
 
   public void printInvoiceContent() {
-    // Resetting tempAnswer to prevent unwanted errors
-    int tempAnswer2;
     // tempAnswer calculates the cost as it runs printInvoiceContent
+    // Resetting tempAnswer to prevent unwanted errors
+    String cateringNames = "";
+    int tempAnswer2;
     tempAnswer = 0;
 
     tempAnswer = Integer.parseInt(getHireFee());
     MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(getHireFee());
 
-    // ToDo print catering types within the same output line
     if (!CateringTypes.isEmpty()) {
       for (CateringType CateringType : CateringTypes) {
+
+        // calculate tempAnswer2 for each catering type
         tempAnswer2 = CateringType.getCostPerPerson() * Integer.parseInt(attendees);
-        MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
-            CateringType.getName(), Integer.toString(tempAnswer2));
+        
+        // if statement stores the name of each catering type into the catering string
+        if (cateringNames.isEmpty()){
+          cateringNames = "" + CateringType.getName();
+        } else {
+          cateringNames = cateringNames + "/" + CateringType.getName();
+        }
         tempAnswer += tempAnswer2;
       }
+      MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
+        cateringNames, Integer.toString(tempAnswer-Integer.parseInt(getHireFee())));
 
-    } else if (this.musicService == true) {
+    } 
+    
+    if (this.musicService == true) {
+
       tempAnswer += 500;
       MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage("500");
-    } else if (this.floral == true) {
+
+    } 
+    
+    if (this.floral == true) {
+
       tempAnswer += floralType.getCost();
       MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
           floralType.getName(), Integer.toString(floralType.getCost()));
+
     }
   }
 
