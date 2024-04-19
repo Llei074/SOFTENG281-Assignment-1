@@ -1,6 +1,5 @@
 package nz.ac.auckland.se281;
 
-import java.util.ArrayList;
 import nz.ac.auckland.se281.Types.CateringType;
 import nz.ac.auckland.se281.Types.FloralType;
 
@@ -12,9 +11,8 @@ public class BookingDetails extends Venue {
   private String attendees;
   private String reference;
   private VenueDetails venue;
-  private ArrayList<CateringType> cateringTypes = new ArrayList<CateringType>();
+  private CateringType cateringType;
   private boolean musicService = false;
-  private boolean floral = false;
   private FloralType floralType;
 
   public BookingDetails(String[] options, String ref, String bookingDate, VenueDetails venue) {
@@ -43,7 +41,7 @@ public class BookingDetails extends Venue {
   }
 
   public void setCateringType(CateringType cateringType) {
-    cateringTypes.add(cateringType);
+    this.cateringType = cateringType;
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
         "Catering (" + cateringType.getName() + ")", this.reference);
   }
@@ -55,7 +53,6 @@ public class BookingDetails extends Venue {
 
   public void setFloralType(FloralType floralType) {
     this.floralType = floralType;
-    this.floral = true;
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
         "Floral (" + floralType.getName() + ")", this.reference);
   }
@@ -63,39 +60,23 @@ public class BookingDetails extends Venue {
   public void printInvoiceContent() {
     // tempAnswer calculates the cost as it runs printInvoiceContent
     // Resetting tempAnswer to prevent unwanted errors
-    String cateringNames = "";
-    int tempAnswer2;
     tempAnswer = 0;
 
     tempAnswer = Integer.parseInt(getHireFee());
     MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(getHireFee());
 
-    if (!cateringTypes.isEmpty()) {
-      for (CateringType cateringType : cateringTypes) {
-
-        // calculate tempAnswer2 for each catering type
-        tempAnswer2 = cateringType.getCostPerPerson() * Integer.parseInt(attendees);
-
-        // if statement stores the name of each catering type into the catering string
-        if (cateringNames.isEmpty()) {
-          cateringNames = "" + cateringType.getName();
-        } else {
-          cateringNames = cateringNames + "/" + cateringType.getName();
-        }
-        tempAnswer += tempAnswer2;
-      }
+    if (cateringType != null) {
+      tempAnswer += cateringType.getCostPerPerson() * Integer.parseInt(attendees);
       MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
-          cateringNames, Integer.toString(tempAnswer - Integer.parseInt(getHireFee())));
+          cateringType.getName(), Integer.toString(tempAnswer - Integer.parseInt(getHireFee())));
     }
 
     if (this.musicService == true) {
-
       tempAnswer += 500;
       MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage("500");
     }
 
-    if (this.floral == true) {
-
+    if (floralType != null) {
       tempAnswer += floralType.getCost();
       MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
           floralType.getName(), Integer.toString(floralType.getCost()));
@@ -103,6 +84,8 @@ public class BookingDetails extends Venue {
   }
 
   public String getTotalAmount() {
+    // getTotalAmount is ran after printInvoiceContent
+    // therefore the value of tempAnswer does not change
     return Integer.toString(tempAnswer);
   }
 
