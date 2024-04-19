@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class VenueDetails extends Venue {
 
-
   private ArrayList<BookingDetails> bookings = new ArrayList<BookingDetails>();
 
   public VenueDetails(String name, String code, String capacityInput, String hireFeeInput) {
@@ -12,21 +11,6 @@ public class VenueDetails extends Venue {
     this.code = code;
     this.venueCapacity = capacityInput;
     this.hireFee = hireFeeInput;
-  }
-
-  @Override 
-  public String getName() {
-    return this.name;
-  }
-
-  @Override
-  public String getHireFee() {
-    return this.hireFee;
-  }
-
-  @Override
-  public String getCapacity() {
-    return this.venueCapacity;
   }
 
   public void addBooking(BookingDetails booking) {
@@ -67,12 +51,12 @@ public class VenueDetails extends Venue {
     int counter = 0;
 
     // Allows code to run if the date has not been set by returning "%s"
-    if (sysDate.getDate().equals("not set")) {
+    if (getDate().equals("not set")) {
       return "%s";
     }
 
     // Stores the system day at the begining to get the latest day
-    int dayValue = Integer.parseInt(sysDate.getSysDay());
+    int dayValue = Integer.parseInt(getSysDay());
 
     // Prevents code from running if there is no bookings made
     if (!bookings.isEmpty()) {
@@ -96,20 +80,11 @@ public class VenueDetails extends Venue {
         }
       }
       if (dayValue < 10) {
-        return "0"
-            + Integer.toString(dayValue)
-            + "/"
-            + sysDate.getSysMonth()
-            + "/"
-            + sysDate.getSysYear();
+        return "0" + Integer.toString(dayValue) + "/" + getSysMonth() + "/" + getSysYear();
       } else {
-        return Integer.toString(dayValue)
-            + "/"
-            + sysDate.getSysMonth()
-            + "/"
-            + sysDate.getSysYear();
+        return Integer.toString(dayValue) + "/" + getSysMonth() + "/" + getSysYear();
       }
     }
-    return sysDate.getDate();
+    return getDate();
   }
 }

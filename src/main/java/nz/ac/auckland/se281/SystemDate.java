@@ -1,13 +1,11 @@
 package nz.ac.auckland.se281;
 
-public class SystemDate {
+public class SystemDate extends Venue {
 
-  private String sysDate;
-  private String[] stringDate;
   private int[] intDate = {0, 0, 0};
 
   public SystemDate(String date) {
-    this.sysDate = date;
+    sysDate = date;
 
     if (!sysDate.equals("not set")) {
       stringDate = date.split("/");
@@ -18,27 +16,11 @@ public class SystemDate {
   }
 
   public void setDate(String date) {
-    this.sysDate = date;
+    sysDate = date;
     stringDate = date.split("/");
     for (int i = 0; i < 3; i++) {
       intDate[i] = Integer.parseInt(stringDate[i]);
     }
-  }
-
-  public String getDate() {
-    return sysDate;
-  }
-
-  public String getSysDay() {
-    return stringDate[0];
-  }
-
-  public String getSysMonth() {
-    return stringDate[1];
-  }
-
-  public String getSysYear() {
-    return stringDate[2];
   }
 
   public boolean checkDate(String bookingDate) {

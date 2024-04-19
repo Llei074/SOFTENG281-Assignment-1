@@ -8,11 +8,36 @@ public abstract class Venue {
   protected String venueCapacity;
   protected String hireFee;
 
-  public abstract String getName();
+  public static String sysDate;
+  public static String[] stringDate;
 
-  public abstract String getHireFee();
+  public String getDate() {
+    return sysDate;
+  }
 
-  public abstract String getCapacity();
+  public String getSysDay() {
+    return stringDate[0];
+  }
+
+  public String getSysMonth() {
+    return stringDate[1];
+  }
+
+  public String getSysYear() {
+    return stringDate[2];
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public String getHireFee() {
+    return this.hireFee;
+  }
+
+  public String getCapacity() {
+    return this.venueCapacity;
+  }
 
   public void setName(String name) {
     this.name = name;

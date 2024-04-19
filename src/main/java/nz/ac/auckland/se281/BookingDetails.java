@@ -71,16 +71,16 @@ public class BookingDetails extends Venue {
     MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(getHireFee());
 
     if (!cateringTypes.isEmpty()) {
-      for (CateringType CateringType : cateringTypes) {
+      for (CateringType cateringType : cateringTypes) {
 
         // calculate tempAnswer2 for each catering type
-        tempAnswer2 = CateringType.getCostPerPerson() * Integer.parseInt(attendees);
+        tempAnswer2 = cateringType.getCostPerPerson() * Integer.parseInt(attendees);
 
         // if statement stores the name of each catering type into the catering string
         if (cateringNames.isEmpty()) {
-          cateringNames = "" + CateringType.getName();
+          cateringNames = "" + cateringType.getName();
         } else {
-          cateringNames = cateringNames + "/" + CateringType.getName();
+          cateringNames = cateringNames + "/" + cateringType.getName();
         }
         tempAnswer += tempAnswer2;
       }
