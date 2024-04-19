@@ -12,7 +12,7 @@ public class BookingDetails extends Venue {
   private String attendees;
   private String reference;
   private VenueDetails venue;
-  private ArrayList<CateringType> CateringTypes = new ArrayList<CateringType>();
+  private ArrayList<CateringType> cateringTypes = new ArrayList<CateringType>();
   private boolean musicService = false;
   private boolean floral = false;
   private FloralType floralType;
@@ -43,7 +43,7 @@ public class BookingDetails extends Venue {
   }
 
   public void setCateringType(CateringType cateringType) {
-    CateringTypes.add(cateringType);
+    cateringTypes.add(cateringType);
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
         "Catering (" + cateringType.getName() + ")", this.reference);
   }
@@ -57,7 +57,7 @@ public class BookingDetails extends Venue {
     this.floralType = floralType;
     this.floral = true;
     MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
-      "Floral (" + floralType.getName() + ")", this.reference);
+        "Floral (" + floralType.getName() + ")", this.reference);
   }
 
   public void printInvoiceContent() {
@@ -70,14 +70,14 @@ public class BookingDetails extends Venue {
     tempAnswer = Integer.parseInt(getHireFee());
     MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(getHireFee());
 
-    if (!CateringTypes.isEmpty()) {
-      for (CateringType CateringType : CateringTypes) {
+    if (!cateringTypes.isEmpty()) {
+      for (CateringType CateringType : cateringTypes) {
 
         // calculate tempAnswer2 for each catering type
         tempAnswer2 = CateringType.getCostPerPerson() * Integer.parseInt(attendees);
-        
+
         // if statement stores the name of each catering type into the catering string
-        if (cateringNames.isEmpty()){
+        if (cateringNames.isEmpty()) {
           cateringNames = "" + CateringType.getName();
         } else {
           cateringNames = cateringNames + "/" + CateringType.getName();
@@ -85,23 +85,20 @@ public class BookingDetails extends Venue {
         tempAnswer += tempAnswer2;
       }
       MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
-        cateringNames, Integer.toString(tempAnswer-Integer.parseInt(getHireFee())));
+          cateringNames, Integer.toString(tempAnswer - Integer.parseInt(getHireFee())));
+    }
 
-    } 
-    
     if (this.musicService == true) {
 
       tempAnswer += 500;
       MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage("500");
+    }
 
-    } 
-    
     if (this.floral == true) {
 
       tempAnswer += floralType.getCost();
       MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
           floralType.getName(), Integer.toString(floralType.getCost()));
-
     }
   }
 

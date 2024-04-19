@@ -8,7 +8,7 @@ public class VenueHireSystem {
 
   private ArrayList<VenueDetails> venues = new ArrayList<VenueDetails>();
   private ArrayList<BookingDetails> bookings = new ArrayList<BookingDetails>();
-  SystemDate sysDate = new SystemDate("not set");
+  private SystemDate sysDate = new SystemDate("not set");
   private String[] intToWord = {
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
   };
@@ -185,6 +185,7 @@ public class VenueHireSystem {
 
   public void viewInvoice(String bookingReference) {
     for (BookingDetails booking : bookings) {
+      // Finding the instance in BookingDetails with the user input bookingReference
       if (booking.getReference().equals(bookingReference)) {
 
         MessageCli.INVOICE_CONTENT_TOP_HALF.printMessage(
@@ -194,7 +195,9 @@ public class VenueHireSystem {
             booking.getPartyDate(),
             booking.getAttendees(),
             booking.getName());
-
+        
+        // printInvoiceContent uses the variables stored within the booking instance
+        // and calculates the total amount in the process 
         booking.printInvoiceContent();
 
         MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(booking.getTotalAmount());
